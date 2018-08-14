@@ -1,0 +1,20 @@
+{
+  "name": "coiot_listener",
+  "version": "0.0.1",
+  "description": "CoIoT protocol litener and decoder",
+  "main": "index.js",
+  "scripts": {
+    "start": "node simpledump.js"
+  },
+  "keywords": [
+    "CoIoT",
+    "IoT",
+    "CoAP"
+  ],
+  "author": "Stoian Ivanov",
+  "license": "LGPL-3.0",
+  "devDependencies": {
+    "@types/node": "^10.5.7",
+    "typescript": "^3.0.1"
+  }
+}
