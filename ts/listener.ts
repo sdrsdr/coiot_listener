@@ -52,6 +52,16 @@ export class Listener extends EventEmitter {
 			} else {
 				try {
 					this.emit('msg',coapmsg);
+					if (
+						coapmsg.uri_path==='/cit/s' 
+						&& coapmsg.coiot_stat_serial!=undefined 
+						&& coapmsg.coiot_dev!=undefined
+						&& coapmsg.coiot_id!=undefined
+					){
+						this.emit('/cit/s',coapmsg,coapmsg.coiot_stat_serial,coapmsg.coiot_dev);
+						this.emit('/cit/s@'+coapmsg.coiot_dev+"#"+coapmsg.coiot_id,coapmsg,coapmsg.coiot_stat_serial);
+
+					}
 				} catch(e){
 					this.emit("herror",coapmsg);
 					return;
