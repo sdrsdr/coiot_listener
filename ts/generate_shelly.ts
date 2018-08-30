@@ -1,0 +1,10 @@
+import {generate_from_strings} from "./device_generator";
+console.log("/****************************************************************************************");
+console.log(" * Auto generated from device descriptons by Stoian Ivanov at "+new Date().toISOString());
+console.log("*****************************************************************************************/\n\n");
+console.log('import { CoIoT_Device, Property } from "./device";');
+console.log('import { Listener } from "./listener";\n');
+console.log("//===== SHSEN-1 =====");
+console.log(generate_from_strings('SHSEN-1','{"blk":[{"I":1, "D":"sensors"}],"sen":[{"I":11, "D":"motion", "T":"S", "R":"0/1", "L":1},{"I":22, "D":"charger", "T":"S", "R":"0/1", "L":1},{"I":33, "D":"temperature", "T":"T", "R":"-40/125", "L":1},{"I":44, "D":"humidity", "T":"H", "R":"0/100", "L":1},{"I":66, "D":"lux", "T":"L", "R":"0/1", "L":1},{"I":77, "D":"battery", "T":"H", "R":"0/100", "L":1}]}'));
+console.log("\n//===== SHSW-44 =====");
+console.log(generate_from_strings('SHSW-44','{"blk":[{"I":0,"D":"Relay0"},{"I":1,"D":"Relay1"},{"I":2,"D":"Relay2"},{"I":3,"D":"Relay3"}],"sen":[{"I":111,"T":"W","R":"0/2650","L":0},{"I":112,"T":"Switch","R":"0/1","L":0},{"I":121,"T":"W","R":"0/2650","L":1},{"I":122,"T":"Switch","R":"0/1","L":1},{"I":131,"T":"W","R":"0/2650","L":2},{"I":132,"T":"Switch","R":"0/1","L":2},{"I":141,"T":"W","R":"0/2650","L":3},{"I":142,"T":"Switch","R":"0/1","L":3}],"act":[{"I":211,"D":"Switch","L":0,"P":[{"I":2011,"D":"ToState","R":"0/1"}]},{"I":221,"D":"Switch","L":1,"P":[{"I":2021,"D":"ToState","R":"0/1"}]},{"I":231,"D":"Switch","L":2,"P":[{"I":2031,"D":"ToState","R":"0/1"}]},{"I":241,"D":"Switch","L":3,"P":[{"I":2041,"D":"ToState","R":"0/1"}]}]}'));

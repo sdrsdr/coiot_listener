@@ -77,6 +77,12 @@ export function generate_from_strings(dev:string,pl:string):string|undefined{
 		b.p[p.id]=p;
 	}
 
+	//console.log("====== no merge results===================");
+	//console.log("root props:",rootprops);
+	//console.log("block props:",blkprops);
+
+
+
 	//check if we can remove a level as we have single block with all properties in it
 	if (nblk==1 && rootprops.pcount==0) {
 		//yes we do we ubstitute root block with it and empty the blocks list
@@ -85,9 +91,35 @@ export function generate_from_strings(dev:string,pl:string):string|undefined{
 	}
 
 
-	console.log("root props:",rootprops);
-	console.log("block props:",blkprops);
-	return undefined;
+	//console.log("====== merge results===================");
+	//console.log("root props:",rootprops);
+	//console.log("block props:",blkprops);
+	let propsreg='';
+	let prolog="export class "+name_to_id(dev)+" extends CoIoT_Device {\n"
+	let rootprops_gen='';
+	let blockprops_gen='';
+	if (rootprops.pcount>0){
+		for (let propid in rootprops.p) if (rootprops.p.hasOwnProperty(propid)){
+			let p=rootprops.p[propid];
+			rootprops_gen+="\t"+p.name+":Property=new Property("+propid+");\n";
+			propsreg+="\t\t"+"this._all_props["+propid+"]=this."+p.name+";\n";
+		}
+	}
+	for (let blkid in blkprops) if (blkprops.hasOwnProperty(blkid) && blkprops[blkid].pcount>0){
+		let bprops:blkprops=blkprops[blkid];
+		blockprops_gen+=(blockprops_gen==''?"\t":"\n\t")+bprops.blkname+"={\n";
+		for (let propid in bprops.p) if (bprops.p.hasOwnProperty(propid)){
+			let p=bprops.p[propid];
+			blockprops_gen+="\t\t"+p.name+":new Property("+propid+"),\n";
+			propsreg+="\t\t"+"this._all_props["+propid+"]=this."+bprops.blkname+"."+p.name+";\n";
+		}
+		blockprops_gen+="\t};\n";
+	}
+	let epilog="\tconstructor(listener:Listener,serial:string){\n"
+	epilog+="\t\tsuper(listener,\""+dev+"#\"+serial);\n";
+	epilog+=propsreg;
+	epilog+="\t};\n}\n";
+	return prolog+rootprops_gen+blockprops_gen+epilog;
 
 }
 
@@ -95,8 +127,3 @@ export function generate_from_descriptor(m:Coap_Message):string|undefined{
 	if (m.pl==undefined || m.coiot_dev==undefined) return undefined;
 	return generate_from_strings(m.coiot_dev,m.pl.toString('utf8'));
 }
-
-console.log("===== SHSEN-1 =====");
-console.log(generate_from_strings('SHSEN-1','{"blk":[{"I":1, "D":"sensors"}],"sen":[{"I":11, "D":"motion", "T":"S", "R":"0/1", "L":1},{"I":22, "D":"charger", "T":"S", "R":"0/1", "L":1},{"I":33, "D":"temperature", "T":"T", "R":"-40/125", "L":1},{"I":44, "D":"humidity", "T":"H", "R":"0/100", "L":1},{"I":66, "D":"lux", "T":"L", "R":"0/1", "L":1},{"I":77, "D":"battery", "T":"H", "R":"0/100", "L":1}]}'));
-console.log("===== SHSW-44 =====");
-console.log(generate_from_strings('SHSW-44','{"blk":[{"I":0,"D":"Relay0"},{"I":1,"D":"Relay1"},{"I":2,"D":"Relay2"},{"I":3,"D":"Relay3"}],"sen":[{"I":111,"T":"W","R":"0/2650","L":0},{"I":112,"T":"Switch","R":"0/1","L":0},{"I":121,"T":"W","R":"0/2650","L":1},{"I":122,"T":"Switch","R":"0/1","L":1},{"I":131,"T":"W","R":"0/2650","L":2},{"I":132,"T":"Switch","R":"0/1","L":2},{"I":141,"T":"W","R":"0/2650","L":3},{"I":142,"T":"Switch","R":"0/1","L":3}],"act":[{"I":211,"D":"Switch","L":0,"P":[{"I":2011,"D":"ToState","R":"0/1"}]},{"I":221,"D":"Switch","L":1,"P":[{"I":2021,"D":"ToState","R":"0/1"}]},{"I":231,"D":"Switch","L":2,"P":[{"I":2031,"D":"ToState","R":"0/1"}]},{"I":241,"D":"Switch","L":3,"P":[{"I":2041,"D":"ToState","R":"0/1"}]}]}'));
