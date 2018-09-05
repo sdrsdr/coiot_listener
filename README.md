@@ -7,14 +7,14 @@ This project aims to provide a basis for simple DIY home automation scripts that
 As we don't have a npm package you should install it directly from github:
 
 ```
-npm install http://github.com...
+npm install https://github.com/sdrsdr/coiot_listener.git
 ```
 
-the project is developed in TypeScript but the repo also include pretranspiled JavaScript if you don'e need all the code hints and type safety from TypeScript (you're missing alot)
+the project is developed in TypeScript but the repo also include pretranspiled JavaScript if you don't need all the code hints and type safety from TypeScript (you're missing alot)
 
 To use it in plain-old-JavaScript:
 
-```
+```js
 const coiot_listener = require("coiot_listener");
 let l = new coiot_listener.Listener();
 let s = new coiot_listener.shelly.SHSEN_1(l, "123456");
@@ -28,7 +28,7 @@ s.temperature.on("change", () => {
 
 We recommend using typescript:
 
-```
+```ts
 import {Listener, shelly} from "coiot_listener"
 
 let l=new Listener();
@@ -49,3 +49,7 @@ As you can see the code is almost the same but the hints from the IDE are **MUCH
 The package is LGPL3 you're free to use it in commercial apps, but you have to contribute back the changes you made to the package. Your code is yours, the package  and it's changes should benefit all users.
 
 Only *.ts files should be mentioned in PR-s: all else is futile 
+
+## Known Issues:
+
+The events fire as they are detected this means you might pickup some old values for other properties if you're runing from property "onchange" 
