@@ -97,6 +97,7 @@ class Listener extends events_1.EventEmitter {
                         }
                     }
                 }
+            this.emit('ready');
         });
     }
     send_and_track(m, rinfo, cb) {

@@ -115,6 +115,7 @@ export class Listener extends EventEmitter {
 					}
 				}
 			}
+			this.emit('ready');
 
 		});
 
