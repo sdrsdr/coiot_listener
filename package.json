@@ -15,7 +15,7 @@
   "author": "Stoian Ivanov",
   "license": "LGPL-3.0",
   "devDependencies": {
-    "@types/node": "^10.5.7",
-    "typescript": "^3.0.1"
+    "@types/node": "^10.17.17",
+    "typescript": "^3.8.3"
   }
 }
